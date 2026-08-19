@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Session - MindGuardian AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i data-lucide="shield-check"></i>
+            <span>MindGuardian AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="command-center.html">Command Center</a>
+            <a href="session.html" class="active">Session</a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html">About</a>
+        </div>
+    </nav>
+
+    <main style="padding: 1rem 2rem; max-width: 100%; display: flex; flex-direction: column; height: calc(100vh - 70px); overflow: hidden;">
+        <!-- TOP HEADER -->
+        <div class="dashboard-header slide-up" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <h1 style="font-size: 1.5rem; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    MindGuardian AI
+                    <span class="badge badge-status ok" style="background: var(--success); color: white;"><span class="recording-dot" style="display:inline-block; width:8px; height:8px; background:white; border-radius:50%; margin-right:4px;"></span>LIVE SESSION</span>
+                </h1>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="badge badge-status" style="background: rgba(0,0,0,0.1);">OFFLINE MODE ACTIVE</span>
+                    <span style="font-size: 0.75rem; color: var(--text-secondary);">"No camera, microphone or AI data leaves this device."</span>
+                </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                    <span id="sessionTimer" style="font-size: 1.5rem; font-family: monospace; font-weight: bold; color: var(--dark);">00:00:00</span>
+                    <span id="currentTime" style="font-size: 0.8rem; color: var(--text-secondary);"></span>
+                </div>
+                <div style="display: flex; background: var(--surface); border-radius: var(--radius-full); padding: 0.25rem; border: 1px solid var(--glass-border);">
+                    <button class="btn" id="presentationModeBtn" style="padding: 0.5rem 1rem; font-size: 0.85rem; background: var(--primary); color: white; border-radius: var(--radius-full); border: none;" onclick="document.getElementById('sessionLayout').classList.add('presentation-mode'); this.style.background='var(--primary)'; this.style.color='white'; document.getElementById('developerModeBtn').style.background='transparent'; document.getElementById('developerModeBtn').style.color='var(--text-secondary)';">Presentation</button>
+                    <button class="btn" id="developerModeBtn" style="padding: 0.5rem 1rem; font-size: 0.85rem; background: transparent; color: var(--text-secondary); border-radius: var(--radius-full); border: none;" onclick="document.getElementById('sessionLayout').classList.remove('presentation-mode'); this.style.background='var(--primary)'; this.style.color='white'; document.getElementById('presentationModeBtn').style.background='transparent'; document.getElementById('presentationModeBtn').style.color='var(--text-secondary)';">Developer</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="session-layout presentation-mode slide-up delay-1" id="sessionLayout">
+            <!-- ROW 1: LEFT -->
+            <div class="layout-camera card compact-card" style="padding: 0 !important; overflow: hidden; position: relative;">
+                <div id="cameraBox" class="video-box" style="height: 100%; width: 100%;">
+                    <div class="recording-dot hidden" id="recIndicator" style="z-index: 10;"></div>
+                    <video id="webcamVideo" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover; display: none;"></video>
+                    <canvas id="output_canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; z-index: 2; pointer-events: none;"></canvas>
+                    
+                    <div id="cameraPlaceholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%;">
+                        <i data-lucide="camera" style="width: 48px; height: 48px; margin-bottom: 1rem;"></i>
+                        <p>Camera Placeholder</p>
+                    </div>
+
+                    <div id="cameraStatsOverlay" class="hidden" style="position: absolute; top: 10px; left: 10px; right: 10px; padding: 0.75rem; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: var(--radius-md); color: var(--dark); display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; z-index: 5; border: 1px solid rgba(255,255,255,0.5); box-shadow: var(--shadow-sm);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 0.25rem;"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> Connected</span>
+                            <span id="camPermStatus" style="font-weight: 500;">Granted</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
+                            <span id="camResolution">Res: --</span>
+                            <span id="camFps">FPS: --</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: var(--text-primary); margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(0,0,0,0.1); font-weight: 600;">
+                            <span id="faceDetectStatus">Face: NO</span>
+                            <span id="faceLandmarksStatus" class="developer-only">LM: 0</span>
+                            <span id="trackingStatus">Track: OFF</span>
+                        </div>
+                    </div>
+
+                    <div id="cameraErrorState" class="hidden" style="position: absolute; inset: 0; background: var(--danger); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 2rem; text-align: center; z-index: 10;">
+                        <i data-lucide="camera-off" style="width: 48px; height: 48px; margin-bottom: 1rem;"></i>
+                        <h4 id="cameraErrorMessage" style="color: white; margin-bottom: 1rem; font-size: 1.1rem;">Camera Access Denied</h4>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button id="retryHardwareBtn" class="btn" style="background: white; color: var(--danger); font-size: 0.85rem; padding: 0.5rem 1rem;">Retry</button>
+                            <button id="cancelHardwareBtn" class="btn" style="background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; padding: 0.5rem 1rem;">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sessionControls" style="display: flex; gap: 0.5rem; justify-content: center; padding: 1rem; background: var(--surface);">
+                    <button id="startSessionBtn" class="btn primary" style="flex: 1; padding: 0.5rem; font-size: 0.85rem;"><i data-lucide="play" style="width: 16px;"></i> Start</button>
+                    <button id="pauseSessionBtn" class="btn hidden" style="background: var(--warning); color: var(--dark); display: none; flex: 1; padding: 0.5rem; font-size: 0.85rem;"><i data-lucide="pause" style="width: 16px;"></i> Pause</button>
+                    <button id="resumeSessionBtn" class="btn hidden" style="background: var(--success); color: white; display: none; flex: 1; padding: 0.5rem; font-size: 0.85rem;"><i data-lucide="play" style="width: 16px;"></i> Resume</button>
+                    <button id="endSessionBtn" class="btn hidden" style="background: var(--danger); color: white; display: none; flex: 1; padding: 0.5rem; font-size: 0.85rem;"><i data-lucide="square" style="width: 16px;"></i> End</button>
+                </div>
+            </div>
+
+            <!-- ROW 1: CENTER -->
+            <div class="layout-pipeline card compact-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="margin: 0;"><i data-lucide="cpu" class="text-primary"></i> AI Processing</h3>
+                    <button class="btn secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('pipelineFlow').classList.toggle('pipeline-compact')"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i> Expand</button>
+                </div>
+                
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow-y: auto;">
+                    <ul class="process-flow pipeline-compact" id="pipelineFlow">
+                        <li class="flow-node" id="node-1"><i data-lucide="camera"></i> Camera</li>
+                        <li class="flow-connector dev-node" id="conn-1"></li>
+                        
+                        <li class="flow-node dev-node" id="node-2"><i data-lucide="eye"></i> Vision Engine</li>
+                        <li class="flow-connector dev-node" id="conn-2"></li>
+                        
+                        <li class="flow-node dev-node" id="node-3"><i data-lucide="mic"></i> Audio Engine</li>
+                        <li class="flow-connector" id="conn-3"></li>
+                        
+                        <li class="flow-node" id="node-4"><i data-lucide="activity"></i> Signal Processor</li>
+                        <li class="flow-connector dev-node" id="conn-4"></li>
+                        
+                        <li class="flow-node dev-node" id="node-5"><i data-lucide="layers"></i> Feature Fusion</li>
+                        <li class="flow-connector" id="conn-5"></li>
+                        
+                        <li class="flow-node" id="node-6"><i data-lucide="alert-circle"></i> Burnout Risk</li>
+                        <li class="flow-connector dev-node" id="conn-6"></li>
+                        
+                        <li class="flow-node dev-node" id="node-7"><i data-lucide="terminal"></i> Prompt Generator</li>
+                        <li class="flow-connector dev-node" id="conn-7"></li>
+                        
+                        <li class="flow-node dev-node" id="node-8"><i data-lucide="cpu"></i> Local LLM</li>
+                        <li class="flow-connector" id="conn-8"></li>
+                        
+                        <li class="flow-node" id="node-9"><i data-lucide="git-merge"></i> Decision Engine</li>
+                        <li class="flow-connector dev-node" id="conn-9"></li>
+                        
+                        <li class="flow-node" id="node-10"><i data-lucide="heart-handshake"></i> Recommendation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ROW 1: RIGHT -->
+            <div class="layout-wellness card compact-card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 1rem;">
+                <h3 style="margin: 0; font-size: 1.1rem; color: var(--text-secondary);">Wellness Dashboard</h3>
+                
+                <div class="gauge-circle">
+                    <span class="gauge-score" id="sumWellnessGauge">85</span><span style="font-size: 1.25rem;">%</span>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; width: 100%; margin-top: 0.5rem;">
+                    <div style="flex: 1; padding: 0.75rem; background: rgba(0,0,0,0.03); border-radius: var(--radius-md);">
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Burnout Risk</div>
+                        <strong class="text-green" id="sumRiskBadge" style="font-size: 1.1rem;">Low</strong>
+                    </div>
+                    <div style="flex: 1; padding: 0.75rem; background: rgba(0,0,0,0.03); border-radius: var(--radius-md);">
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Confidence</div>
+                        <strong id="deConfidence" class="text-primary" style="font-size: 1.1rem;">85%</strong>
+                    </div>
+                </div>
+                
+                <div style="width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.03); border-radius: var(--radius-md);">
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Decision</div>
+                    <strong id="deDecision" class="text-primary" style="font-size: 1rem;">Waiting</strong>
+                    <!-- Hidden elements needed by JS -->
+                    <span id="deState" style="display:none;"></span>
+                    <span id="dePriority" style="display:none;"></span>
+                </div>
+            </div>
+
+            <!-- ROW 2: LEFT -->
+            <div class="layout-vision card compact-card">
+                <h3 style="margin: 0 0 0.5rem 0;"><i data-lucide="eye" class="text-primary"></i> Vision Summary</h3>
+                <div class="compact-grid">
+                    <div style="display: flex; justify-content: space-between;"><span>Expression</span><strong id="vSmileScore">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Face Detection</span><strong id="vFaceDetected">NO</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Blink Status</span><strong id="vBlinkRate">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Attention</span><strong id="vLookingAway">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Head Direction</span><strong id="vHeadPose">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Lighting</span><strong id="vLighting">--</strong></div>
+                </div>
+            </div>
+
+            <!-- ROW 2: RIGHT -->
+            <div class="layout-audio card compact-card" style="display: flex; flex-direction: column;">
+                <h3 style="margin: 0 0 0.5rem 0;"><i data-lucide="mic" class="text-primary"></i> Audio Summary</h3>
+                <div id="micBox" style="height: 40px; background: rgba(0,0,0,0.05); border-radius: var(--radius-md); position: relative; margin-bottom: 0.5rem; overflow: hidden;">
+                    <canvas id="audioWaveformCanvas" style="width: 100%; height: 100%; display: none; z-index: 1;"></canvas>
+                    <div id="micPlaceholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; font-size: 0.75rem;">
+                        <span>Mic Ready</span>
+                    </div>
+                    <div id="audioLevelContainer" style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(0,0,0,0.1); display: none; z-index: 2;">
+                        <div id="audioLevelBar" style="height: 100%; width: 0%; background: var(--success); transition: width 0.1s ease;"></div>
+                    </div>
+                </div>
+                <div class="compact-grid">
+                    <div style="display: flex; justify-content: space-between;"><span>Speaking</span><strong id="aActivity">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Voice Energy</span><strong id="aEnergy">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Pitch</span><strong id="aPitch">--</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span>Noise Level</span><strong id="aNoise">--</strong></div>
+                </div>
+            </div>
+
+            <!-- ROW 3: RECOMMENDATION -->
+            <div class="layout-recommendation card compact-card" style="background: linear-gradient(135deg, rgba(60, 110, 113, 0.1) 0%, rgba(40, 75, 99, 0.1) 100%); display: flex; align-items: center; gap: 2rem;">
+                <div style="font-size: 3rem; background: white; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-full); box-shadow: var(--shadow-sm);">💡</div>
+                <div style="flex: 1;">
+                    <h4 style="color: var(--text-secondary); margin-bottom: 0.25rem; font-size: 0.8rem; letter-spacing: 1px;">RECOMMENDATION</h4>
+                    <div id="ieAction" style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">Waiting for session...</div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.5rem;">
+                        <span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">Reason:</span>
+                        <span id="ieReason" style="font-size: 0.9rem; color: var(--dark);">--</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 2rem; border-left: 1px solid rgba(0,0,0,0.1); padding-left: 2rem;">
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Recovery Time</div>
+                        <strong id="ieRecovery" style="font-size: 1.5rem; color: var(--dark);">--</strong>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Confidence</div>
+                        <strong id="ieConfidence" style="font-size: 1.5rem; color: var(--dark);">--</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 4: TIMELINE -->
+            <div class="layout-timeline card compact-card">
+                <h3 style="margin: 0 0 0.5rem 0;"><i data-lucide="clock" class="text-primary"></i> Live Session Timeline</h3>
+                <ul class="timeline-list" id="sessionTimeline">
+                    <li class="timeline-item">
+                        <span class="timeline-time">--:--</span>
+                        <span style="flex: 1;">Ready to start session</span>
+                        <i data-lucide="circle" class="text-secondary" style="width: 14px;"></i>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- BOTTOM: ADVANCED METRICS -->
+            <div class="layout-advanced card compact-card developer-only">
+                <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 0.5rem;" onclick="document.getElementById('advMetrics').classList.toggle('expanded');">
+                    <h3 style="margin: 0;"><i data-lucide="terminal" class="text-primary"></i> Advanced Developer Metrics</h3>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div id="advMetrics" class="advanced-metrics-container">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding-top: 1rem;">
+                        
+                        <!-- Raw Vision -->
+                        <div style="background: rgba(0,0,0,0.02); padding: 1rem; border-radius: var(--radius-md);">
+                            <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem;">Raw Vision</h4>
+                            <div class="compact-grid">
+                                <div style="display: flex; justify-content: space-between;"><span>EAR</span><strong id="vEAR">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Eye Closure</span><strong id="vEyeClosure">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Eye Openness</span><strong id="vEyeOpenness">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Head Pitch</span><strong id="vHeadPitch">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Head Yaw</span><strong id="vHeadYaw">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Head Roll</span><strong id="vHeadRoll">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>MAR</span><strong id="vMAR">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Mouth Opening</span><strong id="vMouthOpening">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Yawning</span><strong id="vYawning">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Face Stability</span><strong id="vFaceStability">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Distance</span><strong id="vDistance">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Tracking Status</span><strong id="vTrackingStatus">--</strong></div>
+                            </div>
+                        </div>
+
+                        <!-- Raw Audio -->
+                        <div style="background: rgba(0,0,0,0.02); padding: 1rem; border-radius: var(--radius-md);">
+                            <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem;">Raw Audio</h4>
+                            <div class="compact-grid">
+                                <div style="display: flex; justify-content: space-between;"><span>Speaking Rate</span><strong id="aRate">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Silence</span><strong id="aSilence">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Peak Amp</span><strong id="aPeak">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Avg Amp</span><strong id="aAvgAmp">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Signal Quality</span><strong id="aQuality">--</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Audio Confidence</span><strong id="aConfidence">--</strong></div>
+                            </div>
+                        </div>
+
+                        <!-- System Status -->
+                        <div style="background: rgba(0,0,0,0.02); padding: 1rem; border-radius: var(--radius-md);">
+                            <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem;">System Status</h4>
+                            <div class="compact-grid">
+                                <div style="display: flex; justify-content: space-between;"><span>Camera</span><strong id="sysCamera">Disconnected</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Vision Engine</span><strong id="sysVision">Waiting</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Vision Analysis</span><strong id="sysVisionAnalysis">Waiting</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Audio Engine</span><strong id="sysAudio">Waiting</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Signal Processor</span><strong id="sysSignal">Waiting</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Feature Fusion</span><strong id="sysFusion">Waiting</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Prompt Engine</span><strong id="sysPrompt">Waiting</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>LLM</span><strong id="sysLLM">Waiting</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Decision Engine</span><strong id="sysDecision">Waiting</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Intervention Engine</span><strong id="sysIntervention">Waiting</strong></div>
+                            </div>
+                        </div>
+
+                        <!-- Feature Fusion JSON -->
+                        <div style="grid-column: span 3; background: #1e1e1e; padding: 1rem; border-radius: var(--radius-md);">
+                            <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem; color: white;">Feature Fusion JSON</h4>
+                            <pre id="fusionOutput" style="color: #d4d4d4; font-size: 0.75rem; margin: 0; max-height: 200px; overflow-y: auto; white-space: pre-wrap;">{}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Warnings hidden but required -->
+            <div id="visionWarningCard" class="hidden">
+                <span id="visionWarningTitle"></span>
+                <span id="visionWarningText"></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Session Summary Modal -->
+    <div id="sessionSummaryModal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+        <div class="card slide-up" style="width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;">
+            <h2 style="margin-bottom: 1.5rem; text-align: center;">Session Complete</h2>
+            
+            <div class="grid-2" style="margin-bottom: 2rem; gap: 1rem;">
+                <div style="background: var(--surface); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Duration</div>
+                    <div id="sumDuration" style="font-size: 1.5rem; font-weight: 700; color: var(--dark);">00:00:00</div>
+                </div>
+                <div style="background: var(--surface); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Average Wellness</div>
+                    <div id="sumWellness" style="font-size: 1.5rem; font-weight: 700; color: var(--success);">85%</div>
+                </div>
+                <div style="background: var(--surface); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Max Burnout Risk</div>
+                    <div id="sumRisk" style="font-size: 1.5rem; font-weight: 700; color: var(--warning);">Medium</div>
+                </div>
+                <div style="background: var(--surface); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Avg Blink Rate</div>
+                    <div id="sumBlink" style="font-size: 1.5rem; font-weight: 700; color: var(--dark);">16 bpm</div>
+                </div>
+                <div style="background: var(--surface); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Avg Voice Energy</div>
+                    <div id="sumEnergy" style="font-size: 1.5rem; font-weight: 700; color: var(--dark);">12</div>
+                </div>
+                <div style="background: var(--surface); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">AI Interventions</div>
+                    <div id="sumRecs" style="font-size: 1.5rem; font-weight: 700; color: var(--dark);">3</div>
+                </div>
+            </div>
+            
+            <div style="background: var(--surface); padding: 1.5rem; border-radius: var(--radius-sm); margin-bottom: 2rem;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Final Recommendation</h4>
+                <p id="sumFinalRec" style="font-weight: 600; line-height: 1.5;">Session completed successfully.</p>
+            </div>
+            
+            <div style="text-align: center;">
+                <button id="startNewSessionBtn" class="btn primary" style="width: 100%;"><i data-lucide="refresh-cw"></i> Start New Session</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to update current time -->
+    <script>
+        setInterval(() => {
+            const timeEl = document.getElementById('currentTime');
+            if (timeEl) timeEl.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }, 1000);
+        
+        // Mock timeline updater for aesthetics
+        function updateTimeline(message) {
+            const tl = document.getElementById('sessionTimeline');
+            if (!tl) return;
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const li = document.createElement('li');
+            li.className = 'timeline-item';
+            li.innerHTML = `<span class="timeline-time">${time}</span><span style="flex: 1;">${message}</span><i data-lucide="check-circle" class="text-green" style="width: 14px;"></i>`;
+            tl.prepend(li);
+            if(tl.children.length > 5) tl.removeChild(tl.lastChild);
+            if(window.lucide) window.lucide.createIcons();
+        }
+        
+        // Listen to pipeline events to update Timeline
+        const originalLog = console.log;
+        console.log = function() {
+            originalLog.apply(console, arguments);
+            if(arguments[0] && typeof arguments[0] === 'string') {
+                if(arguments[0].includes('Hardware granted')) updateTimeline('Camera & Microphone Connected');
+                if(arguments[0].includes('runPipelineAnimation')) updateTimeline('AI Pipeline Initialized');
+                if(arguments[0].includes('Decision generated:')) updateTimeline('Wellness Recommendation Generated');
+            }
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/pipeline.js"></script>
+    <script src="js/session.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

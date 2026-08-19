@@ -1,0 +1,45 @@
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(60, 110, 113, 0.4); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(60, 110, 113, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(60, 110, 113, 0); }
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-slow { animation: pulse 3s infinite; }
+.slide-up { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+
+/* Session Pipeline Animations */
+.flow-node.active {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(40, 75, 99, 0.3);
+}
+.flow-connector.active {
+    background: var(--primary);
+}
+
+.recording-dot {
+    width: 12px; height: 12px; background: var(--danger); border-radius: 50%;
+    position: absolute; top: 1rem; right: 1rem;
+    animation: pulse 2s infinite;
+}
+.hidden { display: none !important; opacity: 0; }
+
+.audio-waves { display: flex; align-items: center; justify-content: center; gap: 4px; height: 40px; }
+.wave { width: 4px; height: 4px; background: var(--secondary); border-radius: 2px; transition: height 0.1s ease; }

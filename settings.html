@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - MindGuardian AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i data-lucide="shield-check"></i>
+            <span>MindGuardian AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="command-center.html">Command Center</a>
+            <a href="session.html">Session</a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html" class="active">Settings</a>
+            <a href="about.html">About</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="dashboard-header slide-up">
+            <div>
+                <h1>Settings</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-top: 0.5rem;">Configure local environment and hardware</p>
+            </div>
+        </div>
+
+        <div class="grid-2 slide-up delay-1">
+            <div class="card">
+                <h3 style="margin-bottom: 2rem; font-size: 1.25rem;">General Preferences</h3>
+                <div class="form-group">
+                    <label>Theme</label>
+                    <select>
+                        <option>Light (Arc Style)</option>
+                        <option>Dark Mode</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Application Mode</label>
+                    <select>
+                        <option>Demo Mode (Simulated Data)</option>
+                        <option>Live Mode (Real Sensors)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 2rem; font-size: 1.25rem;">Hardware Setup</h3>
+                <div class="form-group">
+                    <label>Camera Source</label>
+                    <select>
+                        <option>Integrated FaceTime HD Camera</option>
+                        <option>Logitech Brio</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Audio Source</label>
+                    <select>
+                        <option>MacBook Pro Microphone Array</option>
+                        <option>External USB Mic</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 2rem; font-size: 1.25rem;">Local AI Configuration</h3>
+                <div class="form-group">
+                    <label>Model Engine</label>
+                    <select>
+                        <option>Gemma (Google) - Optimized</option>
+                        <option>Llama 3 (Meta) - High Accuracy</option>
+                        <option>Qwen (Alibaba) - Balanced</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Intervention Sensitivity: 50%</label>
+                    <input type="range" min="1" max="100" value="50">
+                </div>
+            </div>
+
+            <div class="card" style="background: var(--dark); color: white; border: none;">
+                <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; color: white;">Privacy Policy Enforced</h3>
+                <p style="font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.8);">
+                    MindGuardian AI operates under a strict Zero Data Collection architecture. All video frames and audio samples are processed in volatile memory and destroyed immediately after inference. No data is stored, and no external requests are made.
+                </p>
+                <div style="margin-top: 2rem;">
+                    <button class="btn primary" style="background: var(--primary);">View Security Audit</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>MindGuardian AI | Privacy First | 100% Offline</p>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/settings.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

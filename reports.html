@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - MindGuardian AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i data-lucide="shield-check"></i>
+            <span>MindGuardian AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="command-center.html">Command Center</a>
+            <a href="session.html">Session</a>
+            <a href="reports.html" class="active">Reports</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html">About</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="dashboard-header slide-up">
+            <div>
+                <h1>Session Reports</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-top: 0.5rem;">Historical analysis and cognitive trends</p>
+            </div>
+        </div>
+
+        <div class="grid-3 slide-up delay-1" style="margin-bottom: 2rem;">
+            <div class="card">
+                <div class="stat-label">Average Wellness</div>
+                <div class="stat-value">78<span style="font-size: 1.5rem; color: var(--text-secondary);">%</span></div>
+            </div>
+            <div class="card">
+                <div class="stat-label">Highest Burnout Risk</div>
+                <div class="stat-value text-warning">Medium</div>
+            </div>
+            <div class="card">
+                <div class="stat-label">Interventions Delivered</div>
+                <div class="stat-value">12</div>
+            </div>
+        </div>
+
+        <div class="grid-2 slide-up delay-2" style="margin-bottom: 2rem;">
+            <div class="card">
+                <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Weekly Wellness Chart</h3>
+                <div class="chart-box">
+                    <div class="chart-bar" style="height: 60%"><span>M</span></div>
+                    <div class="chart-bar" style="height: 75%"><span>T</span></div>
+                    <div class="chart-bar active" style="height: 85%"><span>W</span></div>
+                    <div class="chart-bar" style="height: 40%"><span>T</span></div>
+                    <div class="chart-bar" style="height: 90%"><span>F</span></div>
+                    <div class="chart-bar" style="height: 85%"><span>S</span></div>
+                    <div class="chart-bar" style="height: 95%"><span>S</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Monthly Burnout Trend</h3>
+                <div class="chart-box">
+                    <div class="chart-bar" style="height: 20%; background: var(--warning);"><span>W1</span></div>
+                    <div class="chart-bar" style="height: 45%; background: var(--danger);"><span>W2</span></div>
+                    <div class="chart-bar" style="height: 10%; background: var(--success);"><span>W3</span></div>
+                    <div class="chart-bar" style="height: 5%; background: var(--success);"><span>W4</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card slide-up delay-3">
+            <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Recent Timeline</h3>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; gap: 1.5rem; align-items: flex-start; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <div style="padding: 1rem; background: rgba(60, 110, 113, 0.1); border-radius: var(--radius-sm); color: var(--secondary);"><i data-lucide="check-circle"></i></div>
+                    <div>
+                        <h4 style="margin-bottom: 0.25rem;">Session Completed</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">Today, 10:00 AM • Duration: 1h 30m • Avg Wellness: 82%</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1.5rem; align-items: flex-start; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <div style="padding: 1rem; background: rgba(233, 196, 106, 0.1); border-radius: var(--radius-sm); color: var(--warning);"><i data-lucide="alert-triangle"></i></div>
+                    <div>
+                        <h4 style="margin-bottom: 0.25rem;">Intervention Triggered</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">Yesterday, 2:15 PM • Medium Risk Detected • Recommendation: Take 5 min break</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                    <div style="padding: 1rem; background: rgba(60, 110, 113, 0.1); border-radius: var(--radius-sm); color: var(--secondary);"><i data-lucide="check-circle"></i></div>
+                    <div>
+                        <h4 style="margin-bottom: 0.25rem;">Session Completed</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">Yesterday, 9:00 AM • Duration: 2h 00m • Avg Wellness: 75%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>MindGuardian AI | Privacy First | 100% Offline</p>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/reports.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

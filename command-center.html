@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Center - MindGuardian AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i data-lucide="shield-check"></i>
+            <span>MindGuardian AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="command-center.html" class="active">Command Center</a>
+            <a href="session.html">Session</a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html">About</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="dashboard-header slide-up">
+            <div>
+                <h1>Command Center</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-top: 0.5rem;">System telemetry and model readiness</p>
+            </div>
+            <div>
+                <a href="session.html" class="btn primary"><i data-lucide="play"></i> Start Session</a>
+            </div>
+        </div>
+        
+        <div class="grid-3 slide-up delay-1" style="margin-bottom: 2rem;">
+            <div class="card">
+                <div class="stat-label">Total Sessions</div>
+                <div class="stat-value" id="ccTotalSessions">0</div>
+                <div class="stat-trend text-success"><i data-lucide="activity"></i> All time tracked</div>
+            </div>
+            <div class="card">
+                <div class="stat-label">Latest Avg Wellness</div>
+                <div class="stat-value text-success" id="ccAvgWellness">--</div>
+                <div class="stat-trend"><i data-lucide="trending-up"></i> From your last session</div>
+            </div>
+            <div class="card" style="background: var(--dark); color: white; border: none;">
+                <div class="stat-label" style="color: rgba(255,255,255,0.7);">Privacy Status</div>
+                <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; justify-content: space-between;"><span style="color: rgba(255,255,255,0.7);">Internet</span> <strong class="text-success">Disconnected</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span style="color: rgba(255,255,255,0.7);">Cloud</span> <strong class="text-success">Disabled</strong></div>
+                    <div style="display: flex; justify-content: space-between;"><span style="color: rgba(255,255,255,0.7);">Data Uploads</span> <strong class="text-success">0 Bytes</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card slide-up delay-1" style="margin-bottom: 2rem;">
+            <div class="stat-label">Latest Recommendation</div>
+            <div style="font-size: 1.2rem; font-weight: 600; margin-top: 0.5rem;" id="ccLastRec">No sessions recorded yet.</div>
+        </div>
+
+        <div class="card slide-up delay-2">
+            <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">System Architecture Status</h3>
+            <div class="status-grid">
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="camera" style="width: 18px; color: var(--text-secondary);"></i> Camera</div> <span class="badge-status ok">OK</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="mic" style="width: 18px; color: var(--text-secondary);"></i> Microphone</div> <span class="badge-status ok">OK</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="eye" style="width: 18px; color: var(--text-secondary);"></i> Vision Engine</div> <span class="badge-status ok">OK</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="headphones" style="width: 18px; color: var(--text-secondary);"></i> Audio Engine</div> <span class="badge-status ok">OK</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="layers" style="width: 18px; color: var(--text-secondary);"></i> Feature Fusion</div> <span class="badge-status ok">OK</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="terminal" style="width: 18px; color: var(--text-secondary);"></i> Prompt Engine</div> <span class="badge-status ok">OK</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="cpu" style="width: 18px; color: var(--primary);"></i> Local LLM</div> <span class="badge-status ok">READY</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="git-merge" style="width: 18px; color: var(--text-secondary);"></i> Decision Engine</div> <span class="badge-status ok">OK</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="heart-handshake" style="width: 18px; color: var(--text-secondary);"></i> Intervention</div> <span class="badge-status ok">OK</span></div>
+                <div class="status-item"><div style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="hard-drive" style="width: 18px; color: var(--text-secondary);"></i> Database</div> <span class="badge-status ok">OK</span></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>MindGuardian AI | Privacy First | 100% Offline</p>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/command-center.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

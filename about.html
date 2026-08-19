@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - MindGuardian AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i data-lucide="shield-check"></i>
+            <span>MindGuardian AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="command-center.html">Command Center</a>
+            <a href="session.html">Session</a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html" class="active">About</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="dashboard-header slide-up">
+            <div>
+                <h1>About MindGuardian AI</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-top: 0.5rem;">The vision behind the hackathon project</p>
+            </div>
+        </div>
+
+        <div class="grid-2 slide-up delay-1">
+            <div class="card">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem;"><i data-lucide="target" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i> Problem Statement</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1.05rem;">
+                    Build an On-Device Small Language Model system that estimates burnout risk using webcam micro-expressions and microphone voice characteristics while keeping all user data completely on the local machine without sending anything to the cloud.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem;"><i data-lucide="layers" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i> Architecture</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1.05rem;">
+                    The system utilizes a multi-modal approach. Vision and Audio Engines process local streams. The Signal Processor and Feature Fusion layers prepare the data for Risk Estimation. A Prompt Generator contextualizes the risk for a Local SLM, powering the Decision Engine.
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem;"><i data-lucide="code-2" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i> Tech Stack</h3>
+                <ul style="color: var(--text-secondary); line-height: 2; font-size: 1.05rem; padding-left: 1rem;">
+                    <li><strong>Frontend:</strong> HTML5, CSS3, Vanilla JavaScript (ES6)</li>
+                    <li><strong>Design:</strong> CSS Variables, Glassmorphism, Linear/Apple Aesthetic</li>
+                    <li><strong>No-Build:</strong> Runs perfectly offline without NPM, React, or Tailwind.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem;"><i data-lucide="shield" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i> Privacy First</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1.05rem;">
+                    In an era of ubiquitous cloud computing, physiological data is highly sensitive. MindGuardian AI runs 100% offline. No internet connection is required, ensuring complete data sovereignty and privacy.
+                </p>
+            </div>
+            
+            <div class="card" style="grid-column: 1 / -1; background: var(--primary); color: white;">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: white;"><i data-lucide="rocket" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"></i> Future Scope</h3>
+                <p style="color: rgba(255,255,255,0.8); line-height: 1.7; font-size: 1.05rem;">
+                    Integration with wearable devices (smartwatches), advanced biometric sensing, more specialized localized models for specific professions, and cross-platform native applications.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>MindGuardian AI | Privacy First | 100% Offline</p>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/about.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
