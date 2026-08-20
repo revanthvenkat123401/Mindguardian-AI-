@@ -1,0 +1,56 @@
+# MindGuardian AI Backend Dependencies
+
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+alembic==1.12.1
+
+# Caching & Real-time
+redis==5.0.1
+aioredis==2.0.1
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+PyJWT==2.8.1
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Data Validation & Serialization
+marshmallow==3.20.1
+python-dateutil==2.8.2
+
+# CORS & HTTP
+fastapi-cors==0.0.6
+httpx==0.25.2
+
+# Data Science & Analytics
+numpy==1.24.3
+pandas==2.1.3
+scipy==1.11.4
+
+# PDF Generation
+reportlab==4.0.7
+pdfplumber==0.10.3
+
+# File Handling
+python-dotenv==1.0.0
+
+# Logging & Monitoring
+python-json-logger==2.0.7
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+faker==20.1.0
+
+# Development
+black==23.12.0
+flake8==6.1.0
+isort==5.13.2
+mypy==1.7.1
